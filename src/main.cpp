@@ -1,7 +1,7 @@
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <iostream>
+#include "../include/cpp-dsa.hpp"
 
-int main(){
-
-    std::cout << "Hello World" << std::endl;
-    return 0;
+TEST_CASE("cpp-dsa") {
+    CHECK(add(1, 2) == 3);
 }
