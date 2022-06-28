@@ -1,7 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <iostream>
 #include "../include/cpp-dsa.hpp"
-#include <boost/algorithm/string.hpp>
 
 TEST_CASE("basic") {
     CHECK(basic::add(1, 2) == 3);

@@ -10,6 +10,7 @@
 #include <fmt/format.h>
 #include <src/format.cc>
 #include <doctest/doctest.h>
+#include <boost/algorithm/string.hpp>
 
 namespace basic {
     // Algo1
