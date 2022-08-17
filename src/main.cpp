@@ -9,3 +9,8 @@ TEST_CASE("basic") {
     CHECK(basic::is_prime(2) == true);
     CHECK(boost::trim_copy(std::string(basic::fibonacci(5))) == "1 2 3 5");
 }
+
+TEST_CASE("stack") {
+    CHECK(CStack::_main() == 0);
+    CHECK(Stack::_main() == 0);
+}
