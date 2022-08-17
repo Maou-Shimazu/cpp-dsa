@@ -1,5 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "../include/cpp-dsa.hpp"
+#include "cpp_dsa.hpp"
+#include "c_based_impls.hpp"
 
 TEST_CASE("basic") {
     CHECK(basic::add(1, 2) == 3);
