@@ -16,7 +16,10 @@
 #include <src/format.cc>
 #include <sstream>
 
-constexpr uint64_t N_ONE = static_cast<uint64_t>(-1);
+void DECORATION(const char* name) {
+	std::cout << "\n======================================== " << name
+			  << " =======================================\n";
+}
 
 namespace basic {
 	// Algo1
@@ -92,7 +95,7 @@ namespace Stack {
 		uint64_t top;
 
 	public:
-		Stack() : top(std::move(N_ONE)){};
+		Stack() : top(std::move(static_cast<uint64_t>(-1))){};
 		std::function<bool()> is_full = [this] {
 			return top == SMAX - 1 ? 1 : 0;
 		};
@@ -140,7 +143,7 @@ namespace Stack {
 	};
 
 	int main() {
-		std::cout << "Stack Output: " << std::endl;
+		DECORATION("Stack");
 		Stack s = Stack();
 		// s.push(1);
 		// s.push(2);
@@ -156,11 +159,12 @@ namespace Stack {
 	}
 } // namespace Stack
 
-namespace Queue { // warning: output is different from expected.
+namespace Queue {
 	class Queue {
 		static constexpr int SIZE = 5;
 		std::array<int, SIZE> items;
 		uint64_t front, rear;
+		static constexpr uint64_t N_ONE = static_cast<uint64_t>(-1);
 
 	public:
 		Queue() : front(std::move(N_ONE)), rear(std::move(N_ONE)) {}
@@ -172,27 +176,30 @@ namespace Queue { // warning: output is different from expected.
 		}
 		void en_queue(int element) {
 			if (is_full())
-				std::cout << "Queue is full\n";
+				std::cerr << "Queue is full! Tried to insert: " << element;
 			else {
-				front == 1 ? front = 0 : rear++;
+				if (front == -1)
+					front = 0;
+				rear++;
 				items[rear] = element;
 				std::cout << "Inserted = " << element << "\n";
 			}
 		}
 		void en_queue(std::vector<int> elements) {
-			if (is_full())
-				std::cout << "Queue is full\n";
-			else {
-				for (auto& i : elements) {
-					front == 1 ? front = 0 : rear++;
-					items[rear] = i;
-					std::cout << "Inserted = " << i << "\n";
-				}
+
+			for (auto& i : elements) {
+				if (is_full())
+					std::cerr << "Queue is full! Tried to insert: " << i;
+				if (front == -1)
+					front = 0;
+				rear++;
+				items[rear] = i;
+				std::cout << "Inserted = " << i << "\n";
 			}
 		}
 		int de_queue() {
 			if (is_empty()) {
-				std::cout << "Queue is Empty\n";
+				std::cerr << "\nQueue is Empty\n";
 				return -1;
 			} else {
 				int element = items[front];
@@ -207,9 +214,9 @@ namespace Queue { // warning: output is different from expected.
 		}
 		void display() {
 			if (is_empty())
-				std::cout << "Empty Queue\n";
+				std::cerr << "\nQueue is Empty\n";
 			else {
-				std::cout << "Front index: " << front;
+				std::cout << "Front index: " << front << "; ";
 				std::cout << "Items: ";
 				for (auto i = front; i <= rear; i++)
 					std::cout << items[i] << " ";
@@ -218,18 +225,16 @@ namespace Queue { // warning: output is different from expected.
 		}
 	};
 	int main() {
-		std::cout << "Queue: \n";
+		DECORATION("Queue");
 		Queue q = Queue();
-
 		q.de_queue();
-
-		q.en_queue(1);
-		q.en_queue(2);
-		q.en_queue(3);
-		q.en_queue(4);
-		q.en_queue(5);
-
-		q.en_queue(6);
+		// q.en_queue(1);
+		// q.en_queue(2);
+		// q.en_queue(3);
+		// q.en_queue(4);
+		// q.en_queue(5);
+		q.en_queue({1, 2, 3, 4, 5});
+		q.en_queue(6); // queue is full
 		q.display();
 
 		q.de_queue();

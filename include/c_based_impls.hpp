@@ -3,6 +3,10 @@
 #include <vector>
 using namespace std;
 
+void CDECORATION(const char* name) {
+	std::cout << "\n======================================== " << name << " =======================================\n";
+}
+
 namespace CStack {
 #define MAX 10
 	int size = 0;
@@ -68,7 +72,7 @@ namespace CStack {
 
 	// Driver code
 	int main() {
-		std::cout << "CStack Output: " << std::endl;
+		CDECORATION("CStack");
 		st* s = (st*)malloc(sizeof(st));
 
 		createEmptyStack(s);
@@ -165,7 +169,7 @@ namespace CQueue {
 	};
 
 	int main() {
-		std::cout << "CQueue: \n";
+		CDECORATION("CQueue");
 		Queue q;
 
 		// deQueue is not possible on empty queue
