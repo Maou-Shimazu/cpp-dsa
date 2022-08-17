@@ -1,9 +1,9 @@
 #include <cstdlib>
 #include <iostream>
+#include <vector>
+using namespace std;
 
 namespace CStack {
-	using namespace std;
-
 #define MAX 10
 	int size = 0;
 
@@ -67,7 +67,7 @@ namespace CStack {
 	}
 
 	// Driver code
-	int _main() {
+	int main() {
 		std::cout << "CStack Output: " << std::endl;
 		st* s = (st*)malloc(sizeof(st));
 
@@ -91,11 +91,8 @@ namespace CStack {
 } // namespace CStack
 
 namespace CQueue {
-#include <iostream>
 #define SIZE 5
-
 	using namespace std;
-
 	class Queue {
 	private:
 		int items[SIZE], front, rear;
@@ -168,6 +165,7 @@ namespace CQueue {
 	};
 
 	int main() {
+		std::cout << "CQueue: \n";
 		Queue q;
 
 		// deQueue is not possible on empty queue
@@ -191,11 +189,12 @@ namespace CQueue {
 		// Now we have just 4 elements
 		q.display();
 
+		cout << "\n";
+
 		return 0;
 	}
 } // namespace CQueue
 namespace CCircularQueue {
-#include <iostream>
 #define SIZE 5 /* Size of Circular Queue */
 
 	using namespace std;
@@ -310,103 +309,95 @@ namespace CCircularQueue {
 	}
 } // namespace CCircularQueue
 
-namespace CPriorityQueue {
-	// Priority Queue implementation in C++
+// namespace CPriorityQueue {
+// 	// Priority Queue implementation in C++
+// 	// Function to swap position of two elements
+// 	void swap(int* a, int* b) {
+// 		int temp = *b;
+// 		*b		 = *a;
+// 		*a		 = temp;
+// 	}
 
-#include <iostream>
-#include <vector>
-	using namespace std;
+// 	// Function to heapify the tree
+// 	void heapify(vector<int>& hT, int i) {
+// 		int size = hT.size();
 
-	// Function to swap position of two elements
-	void swap(int* a, int* b) {
-		int temp = *b;
-		*b		 = *a;
-		*a		 = temp;
-	}
+// 		// Find the largest among root, left child and right child
+// 		int largest = i;
+// 		int l		= 2 * i + 1;
+// 		int r		= 2 * i + 2;
+// 		if (l < size && hT[l] > hT[largest])
+// 			largest = l;
+// 		if (r < size && hT[r] > hT[largest])
+// 			largest = r;
 
-	// Function to heapify the tree
-	void heapify(vector<int>& hT, int i) {
-		int size = hT.size();
+// 		// Swap and continue heapifying if root is not largest
+// 		if (largest != i) {
+// 			swap(&hT[i], &hT[largest]);
+// 			heapify(hT, largest);
+// 		}
+// 	}
 
-		// Find the largest among root, left child and right child
-		int largest = i;
-		int l		= 2 * i + 1;
-		int r		= 2 * i + 2;
-		if (l < size && hT[l] > hT[largest])
-			largest = l;
-		if (r < size && hT[r] > hT[largest])
-			largest = r;
+// 	// Function to insert an element into the tree
+// 	void insert(vector<int>& hT, int newNum) {
+// 		int size = hT.size();
+// 		if (size == 0) {
+// 			hT.push_back(newNum);
+// 		} else {
+// 			hT.push_back(newNum);
+// 			for (int i = size / 2 - 1; i >= 0; i--) {
+// 				heapify(hT, i);
+// 			}
+// 		}
+// 	}
 
-		// Swap and continue heapifying if root is not largest
-		if (largest != i) {
-			swap(&hT[i], &hT[largest]);
-			heapify(hT, largest);
-		}
-	}
+// 	// Function to delete an element from the tree
+// 	void deleteNode(vector<int>& hT, int num) {
+// 		int size = hT.size();
+// 		int i;
+// 		for (i = 0; i < size; i++) {
+// 			if (num == hT[i])
+// 				break;
+// 		}
+// 		swap(&hT[i], &hT[size - 1]);
 
-	// Function to insert an element into the tree
-	void insert(vector<int>& hT, int newNum) {
-		int size = hT.size();
-		if (size == 0) {
-			hT.push_back(newNum);
-		} else {
-			hT.push_back(newNum);
-			for (int i = size / 2 - 1; i >= 0; i--) {
-				heapify(hT, i);
-			}
-		}
-	}
+// 		hT.pop_back();
+// 		for (int i = size / 2 - 1; i >= 0; i--) {
+// 			heapify(hT, i);
+// 		}
+// 	}
 
-	// Function to delete an element from the tree
-	void deleteNode(vector<int>& hT, int num) {
-		int size = hT.size();
-		int i;
-		for (i = 0; i < size; i++) {
-			if (num == hT[i])
-				break;
-		}
-		swap(&hT[i], &hT[size - 1]);
+// 	// Print the tree
+// 	void printArray(vector<int>& hT) {
+// 		for (int i = 0; i < hT.size(); ++i)
+// 			cout << hT[i] << " ";
+// 		cout << "\n";
+// 	}
 
-		hT.pop_back();
-		for (int i = size / 2 - 1; i >= 0; i--) {
-			heapify(hT, i);
-		}
-	}
+// 	// Driver code
+// 	int main() {
+// 		vector<int> heapTree;
 
-	// Print the tree
-	void printArray(vector<int>& hT) {
-		for (int i = 0; i < hT.size(); ++i)
-			cout << hT[i] << " ";
-		cout << "\n";
-	}
+// 		insert(heapTree, 3);
+// 		insert(heapTree, 4);
+// 		insert(heapTree, 9);
+// 		insert(heapTree, 5);
+// 		insert(heapTree, 2);
 
-	// Driver code
-	int main() {
-		vector<int> heapTree;
+// 		cout << "Max-Heap array: ";
+// 		printArray(heapTree);
 
-		insert(heapTree, 3);
-		insert(heapTree, 4);
-		insert(heapTree, 9);
-		insert(heapTree, 5);
-		insert(heapTree, 2);
+// 		deleteNode(heapTree, 4);
 
-		cout << "Max-Heap array: ";
-		printArray(heapTree);
+// 		cout << "After deleting an element: ";
 
-		deleteNode(heapTree, 4);
-
-		cout << "After deleting an element: ";
-
-		printArray(heapTree);
-	}
-} // namespace CPriorityQueue
+// 		printArray(heapTree);
+// 		return 0;
+// 	}
+// } // namespace CPriorityQueue
 
 namespace CDeque {
 	// Deque implementation in C++
-
-#include <iostream>
-	using namespace std;
-
 #define MAX 10
 
 	class Deque {
@@ -550,5 +541,6 @@ namespace CDeque {
 
 		cout << "after deletion of front element new front element: "
 			 << dq.getFront() << endl;
+		return 0;
 	}
 } // namespace CDeque
