@@ -22,3 +22,7 @@ TEST_CASE("Queue") {
     CHECK(CCircularQueue::main() == 0);
     CHECK(CircularQueue::main() == 0);
 }
+
+TEST_CASE("List") {
+    CHECK(List::main() == 0);
+}

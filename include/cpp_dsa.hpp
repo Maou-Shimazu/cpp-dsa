@@ -1,12 +1,12 @@
 #pragma once
 
-#include <array>
-#include <cassert>
-#include <vector>
+#include <algorithm>
 #ifndef CPP_DSA_HPP
 #define CPP_DSA_HPP
 
+#include <array>
 #include <boost/algorithm/string.hpp>
+#include <cassert>
 #include <cmath>
 #include <cstdint>
 #include <doctest/doctest.h>
@@ -14,8 +14,10 @@
 #include <fmt/format.h>
 #include <functional>
 #include <iostream>
+#include <memory>
 #include <src/format.cc>
 #include <sstream>
+#include <vector>
 
 void DECORATION(const char* name) {
 	std::cout << "\n======================================== " << name
@@ -336,5 +338,52 @@ namespace CircularQueue { // warning: has bugs in output
 		return 0;
 	}
 } // namespace CircularQueue
+
+namespace List {
+	struct Node {
+		int data;
+		Node* next;
+		Node()	= default;
+		~Node() = default;
+		void display(Node* n) {
+			while (n != nullptr) {
+				std::cout << n->data << " ";
+				n = n->next;
+			}
+		}
+	};
+	class List {
+		Node *head, *tail;
+
+	public:
+		List() : head(std::move(nullptr)), tail(std::move(nullptr)) {}
+		void create_node(int value) {
+			std::unique_ptr<Node> temp = std::make_unique<Node>();
+			temp->data				   = value;
+			temp->next				   = nullptr;
+			if () {
+				head = temp.get();
+				tail = temp.get();
+				temp = nullptr;
+			} else {
+				tail->next = temp.get();
+				tail	   = temp.get();
+			}
+		}
+	};
+	int main() {
+		std::unique_ptr<Node> head	 = std::make_unique<Node>();
+		std::unique_ptr<Node> second = std::make_unique<Node>();
+		std::unique_ptr<Node> third	 = std::make_unique<Node>();
+		head->data					 = 1;
+		head->next					 = second.get();
+		second->data				 = 2;
+		second->next				 = third.get();
+		third->data					 = 3;
+		third->next					 = nullptr;
+		head->display(head.get());
+		return 0;
+	}
+} // namespace List
 
 #endif
