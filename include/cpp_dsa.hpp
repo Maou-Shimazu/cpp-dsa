@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <cassert>
 #include <vector>
 #ifndef CPP_DSA_HPP
 #define CPP_DSA_HPP
@@ -244,5 +245,96 @@ namespace Queue {
 		return 0;
 	}
 } // namespace Queue
+
+namespace CircularQueue { // warning: has bugs in output
+	class CircularQueue {
+		static constexpr int SIZE{5};
+		static constexpr uint64_t N_ONE = static_cast<uint64_t>(-1);
+		std::array<int, 5> items;
+		uint64_t front, rear;
+
+	public:
+		CircularQueue() : front(std::move(N_ONE)), rear(std::move(N_ONE)) {}
+		bool is_full() {
+			return front == 0 && rear == SIZE - 1 ? true
+				   : front == rear + 1			  ? true
+												  : false;
+		}
+		bool is_empty() {
+			return front == -1 ? true : false;
+		}
+		void en_queue(int element) {
+			if (is_full())
+				std::cerr << "Queue is full\n";
+			else {
+				if (front == -1)
+					front = 0;
+				rear		= (rear + 1) % SIZE;
+				items[rear] = element;
+				std::cout << "Inserted " << element << std::endl;
+			}
+		}
+		int de_queue() {
+			if (is_empty()) {
+				std::cerr << "\nQueue is empty\n";
+				return -1;
+			} else {
+				int element = items[front];
+				if (front == rear) {
+					front = N_ONE;
+					rear  = N_ONE;
+				} else
+					front = (front + 1) % SIZE;
+				return element;
+			}
+		}
+		void display() {
+			if (is_empty())
+				std::cerr << "\nQueue is empty";
+			else {
+				std::cout << "Front: " << front;
+				std::cout << "\nItems: ";
+				for (auto i = front; i != rear; i = (i + 1) % SIZE)
+					std::cout << items[i];
+				std::cout << "\n Rear: " << rear;
+			}
+		}
+	};
+	int main() {
+		DECORATION("Circular Queue");
+		CircularQueue q = CircularQueue();
+
+		// Fails because front = -1
+		q.de_queue();
+
+		q.en_queue(1);
+		q.en_queue(2);
+		q.en_queue(3);
+		q.en_queue(4);
+		q.en_queue(5);
+
+		// q.en_queue({1, 2, 3, 4, 5});
+
+		// Fails to enqueue because front == 0 && rear == SIZE - 1
+		q.en_queue(6);
+
+		q.display();
+
+		int elem = q.de_queue();
+
+		if (elem != -1)
+			std::cout << "\nDeleted Element is " << elem;
+
+		q.display();
+
+		q.en_queue(7);
+
+		q.display();
+
+		q.en_queue(8);
+		std::cout << std::endl;
+		return 0;
+	}
+} // namespace CircularQueue
 
 #endif

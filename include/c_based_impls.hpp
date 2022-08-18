@@ -4,7 +4,8 @@
 using namespace std;
 
 void CDECORATION(const char* name) {
-	std::cout << "\n======================================== " << name << " =======================================\n";
+	std::cout << "\n======================================== " << name
+			  << " =======================================\n";
 }
 
 namespace CStack {
@@ -279,6 +280,7 @@ namespace CCircularQueue {
 	};
 
 	int main() {
+		CDECORATION("CCircular Queue");
 		Queue q;
 
 		// Fails because front = -1
@@ -308,7 +310,7 @@ namespace CCircularQueue {
 
 		// Fails to enqueue because front == rear + 1
 		q.enQueue(8);
-
+		std::cout << std::endl;
 		return 0;
 	}
 } // namespace CCircularQueue

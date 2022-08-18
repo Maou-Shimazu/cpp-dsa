@@ -19,4 +19,6 @@ TEST_CASE("stack") {
 TEST_CASE("Queue") {
     CHECK(CQueue::main() == 0);
     CHECK(Queue::main() == 0);
+    CHECK(CCircularQueue::main() == 0);
+    CHECK(CircularQueue::main() == 0);
 }
