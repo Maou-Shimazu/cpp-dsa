@@ -12,14 +12,14 @@ TEST_CASE("basic") {
 }
 
 TEST_CASE("stack") {
-    CHECK(CStack::main() == 0);
+    // CHECK(CStack::main() == 0);
     CHECK(Stack::main() == 0);
 }
 
 TEST_CASE("Queue") {
-    CHECK(CQueue::main() == 0);
+    // CHECK(CQueue::main() == 0);
     CHECK(Queue::main() == 0);
-    CHECK(CCircularQueue::main() == 0);
+    // CHECK(CCircularQueue::main() == 0);
     CHECK(CircularQueue::main() == 0);
 }
 

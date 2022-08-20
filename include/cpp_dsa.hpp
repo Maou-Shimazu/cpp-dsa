@@ -1,9 +1,10 @@
 #pragma once
 
-#include <algorithm>
 #ifndef CPP_DSA_HPP
 #define CPP_DSA_HPP
 
+#include "console_log.hpp"
+#include <algorithm>
 #include <array>
 #include <boost/algorithm/string.hpp>
 #include <cassert>
@@ -18,6 +19,9 @@
 #include <src/format.cc>
 #include <sstream>
 #include <vector>
+
+using namespace console;
+using ll = log_level;
 
 void DECORATION(const char* name) {
 	std::cout << "\n======================================== " << name
@@ -179,30 +183,36 @@ namespace Queue {
 		}
 		void en_queue(int element) {
 			if (is_full())
-				std::cerr << "Queue is full! Tried to insert: " << element;
+				console::log(
+					fmt::format("Queue is full! Tried to insert: {}", element),
+					ll::Warning,
+					std::cerr);
 			else {
 				if (front == -1)
 					front = 0;
 				rear++;
 				items[rear] = element;
-				std::cout << "Inserted = " << element << "\n";
+				console::log(fmt::format("Inserted = {}", element));
 			}
 		}
 		void en_queue(std::vector<int> elements) {
 
 			for (auto& i : elements) {
 				if (is_full())
-					std::cerr << "Queue is full! Tried to insert: " << i;
+					console::log(
+						fmt::format("Queue is full! Tried to insert: {}", i),
+						ll::Warning,
+						std::cerr);
 				if (front == -1)
 					front = 0;
 				rear++;
 				items[rear] = i;
-				std::cout << "Inserted = " << i << "\n";
+				console::log(fmt::format("Inserted = {}", i), ll::Success);
 			}
 		}
 		int de_queue() {
 			if (is_empty()) {
-				std::cerr << "\nQueue is Empty\n";
+				console::log("Queue is Empty", ll::Error, std::cerr);
 				return -1;
 			} else {
 				int element = items[front];
@@ -211,19 +221,20 @@ namespace Queue {
 					rear  = N_ONE;
 				} else
 					front++;
-				std::cout << "Deleted = " << element << "\n";
+				console::log(fmt::format("Deleted = ", element), ll::Success);
 				return element;
 			}
 		}
 		void display() {
 			if (is_empty())
-				std::cerr << "\nQueue is Empty\n";
+				console::log("Queue is Empty", ll::Error, std::cerr);
 			else {
-				std::cout << "Front index: " << front << "; ";
+				console::log(fmt::format("Front index = {}", front));
 				std::cout << "Items: ";
 				for (auto i = front; i <= rear; i++)
 					std::cout << items[i] << " ";
-				std::cout << "Rear Index: " << rear << "\n";
+				std::cout << std::endl;
+				console::log(fmt::format("Rear Index = {}", rear));
 			}
 		}
 	};
@@ -267,18 +278,19 @@ namespace CircularQueue { // warning: has bugs in output
 		}
 		void en_queue(int element) {
 			if (is_full())
-				std::cerr << "Queue is full\n";
+				console::log("Queue is full", ll::Error, std::cerr);
 			else {
 				if (front == -1)
 					front = 0;
 				rear		= (rear + 1) % SIZE;
 				items[rear] = element;
-				std::cout << "Inserted " << element << std::endl;
+				console::log(fmt::format("Inserted = {}", element),
+							 ll::Success);
 			}
 		}
 		int de_queue() {
 			if (is_empty()) {
-				std::cerr << "\nQueue is empty\n";
+				console::log("Queue is empty", ll::Error, std::cerr);
 				return -1;
 			} else {
 				int element = items[front];
@@ -292,13 +304,14 @@ namespace CircularQueue { // warning: has bugs in output
 		}
 		void display() {
 			if (is_empty())
-				std::cerr << "\nQueue is empty";
+				console::log("Queue is empty", ll::Error, std::cerr);
 			else {
-				std::cout << "Front: " << front;
+				console::log(fmt::format("Front = {}", front));
 				std::cout << "\nItems: ";
 				for (auto i = front; i != rear; i = (i + 1) % SIZE)
 					std::cout << items[i];
-				std::cout << "\n Rear: " << rear;
+				std::cout << "\n";
+				console::log(fmt::format("Rear = {}", rear));
 			}
 		}
 	};
@@ -325,7 +338,7 @@ namespace CircularQueue { // warning: has bugs in output
 		int elem = q.de_queue();
 
 		if (elem != -1)
-			std::cout << "\nDeleted Element is " << elem;
+			console::log(fmt::format("Deleted Element is = {}", elem));
 
 		q.display();
 
@@ -343,45 +356,30 @@ namespace List {
 	struct Node {
 		int data;
 		Node* next;
-		Node()	= default;
+		Node() = default;
+		explicit Node(int data, Node* next)
+			: data(std::move(data)), next(std::move(next)) {}
 		~Node() = default;
-		void display(Node* n) {
-			while (n != nullptr) {
-				std::cout << n->data << " ";
-				n = n->next;
-			}
-		}
 	};
+	void display(Node* n) {
+		while (n != nullptr) {
+			std::cout << n->data << " ";
+			n = n->next;
+		}
+	}
 	class List {
 		Node *head, *tail;
 
 	public:
 		List() : head(std::move(nullptr)), tail(std::move(nullptr)) {}
-		void create_node(int value) {
-			std::unique_ptr<Node> temp = std::make_unique<Node>();
-			temp->data				   = value;
-			temp->next				   = nullptr;
-			if () {
-				head = temp.get();
-				tail = temp.get();
-				temp = nullptr;
-			} else {
-				tail->next = temp.get();
-				tail	   = temp.get();
-			}
-		}
 	};
 	int main() {
-		std::unique_ptr<Node> head	 = std::make_unique<Node>();
-		std::unique_ptr<Node> second = std::make_unique<Node>();
-		std::unique_ptr<Node> third	 = std::make_unique<Node>();
-		head->data					 = 1;
-		head->next					 = second.get();
-		second->data				 = 2;
-		second->next				 = third.get();
-		third->data					 = 3;
-		third->next					 = nullptr;
-		head->display(head.get());
+		std::unique_ptr<Node> third = std::make_unique<Node>(Node(3, nullptr));
+		std::unique_ptr<Node> second =
+			std::make_unique<Node>(Node(2, third.get()));
+		std::unique_ptr<Node> head =
+			std::make_unique<Node>(Node(1, second.get()));
+		display(head.get());
 		return 0;
 	}
 } // namespace List

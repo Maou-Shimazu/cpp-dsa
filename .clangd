@@ -18,6 +18,7 @@ CompileFlags:
       -Wconversion,
       -Wunused-parameter,
       -I../include,
+      -I../../../.cppm/registry/cpp-dsa/console_log/include,
     ]
 
 Diagnostics:
