@@ -353,32 +353,39 @@ namespace CircularQueue { // warning: has bugs in output
 } // namespace CircularQueue
 
 namespace List {
+	template <class T>
 	struct Node {
-		int data;
+		T data;
 		Node* next;
 		Node() = default;
-		explicit Node(int data, Node* next)
+		explicit Node(T data, Node* next)
 			: data(std::move(data)), next(std::move(next)) {}
 		~Node() = default;
 	};
-	void display(Node* n) {
+	template <class T>
+	void display(Node<T>* n) {
 		while (n != nullptr) {
 			std::cout << n->data << " ";
 			n = n->next;
 		}
 	}
+	template <class T>
 	class List {
-		Node *head, *tail;
+		Node<T>*head, *tail;
 
 	public:
 		List() : head(std::move(nullptr)), tail(std::move(nullptr)) {}
 	};
 	int main() {
-		std::unique_ptr<Node> third = std::make_unique<Node>(Node(3, nullptr));
-		std::unique_ptr<Node> second =
-			std::make_unique<Node>(Node(2, third.get()));
-		std::unique_ptr<Node> head =
-			std::make_unique<Node>(Node(1, second.get()));
+		std::unique_ptr<Node<std::string>> third =
+			std::make_unique<Node<std::string>>(
+				Node<std::string>("three", nullptr));
+		std::unique_ptr<Node<std::string>> second =
+			std::make_unique<Node<std::string>>(
+				Node<std::string>("two", third.get()));
+		std::unique_ptr<Node<std::string>> head =
+			std::make_unique<Node<std::string>>(
+				Node<std::string>("one", second.get()));
 		display(head.get());
 		return 0;
 	}
